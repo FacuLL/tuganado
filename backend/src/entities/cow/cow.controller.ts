@@ -17,18 +17,18 @@ export class CowController {
     return this.cowService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cowService.findOne(+id);
+  @Get(':caravana')
+  findOne(@Param('caravana') caravana: string) {
+    return this.cowService.findOne(caravana);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCowDto: UpdateCowDto) {
-    return this.cowService.update(+id, updateCowDto);
+  @Patch(':caravana')
+  update(@Param('caravana') caravana: string, @Body() updateCowDto: UpdateCowDto) {
+    return this.cowService.update(caravana, updateCowDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cowService.remove(+id);
+  @Delete(':caravana')
+  remove(@Param('caravana') caravana: string) {
+    return this.cowService.remove(caravana);
   }
 }

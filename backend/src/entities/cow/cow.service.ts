@@ -1,26 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCowDto } from './dto/create-cow.dto';
 import { UpdateCowDto } from './dto/update-cow.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Cow } from './entities/cow.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CowService {
+  constructor (@InjectRepository(Cow)
+  private readonly cowRepository: Repository<Cow>){}
   create(createCowDto: CreateCowDto) {
-    return 'This action adds a new cow';
+    let cow: Cow= new Cow(createCowDto)
+    return this.cowRepository.insert(cow)
   }
 
   findAll() {
-    return `This action returns all cow`;
+    return this.cowRepository.find({relations: {records: true}}) ;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cow`;
+  async findOne(caravana: string) {
+    let cow: Cow = await this.cowRepository.findOne({where: {caravana: caravana}, relations: {records: true}});
+    if (!cow) throw new NotFoundException("No se encontró una vaca con dicha caravana");
+    return cow;
   }
 
-  update(id: number, updateCowDto: UpdateCowDto) {
-    return `This action updates a #${id} cow`;
+  update(caravana: string, updateCowDto: UpdateCowDto) {
+    return this.cowRepository.update({caravana: caravana}, updateCowDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cow`;
+  remove(caravana: string) {
+    return this.cowRepository.delete({caravana: caravana});
   }
 }
