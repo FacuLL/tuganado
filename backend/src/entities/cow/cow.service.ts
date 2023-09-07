@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCowDto } from './dto/create-cow.dto';
 import { UpdateCowDto } from './dto/update-cow.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,9 +9,10 @@ import { Repository } from 'typeorm';
 export class CowService {
   constructor (@InjectRepository(Cow)
   private readonly cowRepository: Repository<Cow>){}
-  create(createCowDto: CreateCowDto) {
-    let cow: Cow= new Cow(createCowDto)
-    return this.cowRepository.insert(cow)
+  async create(createCowDto: CreateCowDto) {
+    if (await this.cowRepository.findOne({where: {caravana: createCowDto.caravana}})) throw new ConflictException('Ya existe una vaca con dicha caravana');
+    let cow: Cow = new Cow(createCowDto);
+    return this.cowRepository.insert(cow);
   }
 
   findAll() {

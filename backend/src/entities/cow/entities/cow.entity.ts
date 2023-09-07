@@ -8,9 +8,6 @@ export class Cow {
     caravana: string;
 
     @Column()
-    name: string;
-
-    @Column()
     breed: string;
 
     @OneToMany(() => Record, (record) => record.cow)
