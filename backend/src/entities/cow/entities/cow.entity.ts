@@ -7,15 +7,10 @@ export class Cow {
     @PrimaryColumn()
     caravana: string;
 
-    @Column()
-    breed: string;
-
     @OneToMany(() => Record, (record) => record.cow)
     records: Record[];
 
-    constructor(dto: CreateCowDto) {
-        console.log(dto);
-        
+    constructor(dto: CreateCowDto) {     
         for(let key in dto) {
             this[key] = dto[key];
         }

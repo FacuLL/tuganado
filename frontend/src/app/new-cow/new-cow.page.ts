@@ -14,8 +14,7 @@ export class NewCowPage implements OnInit {
   success: boolean = false;
 
   cowForm: FormGroup = this.formBuilder.group<Cow>({
-    caravana: '',
-    breed: ''
+    caravana: ''
   });
 
   registerCow() {

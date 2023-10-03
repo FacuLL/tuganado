@@ -24,9 +24,9 @@ export class Record {
 
     constructor(dto: CreateRecordDto, cow: Cow) {
         for(let key in dto) {
-            this[key] = dto[key];
+            if (key != 'date') this[key] = dto[key];
         }
-        this.date = new Date();
+        this.date = dto?.date ? new Date(dto.date) : new Date();
         this.cow = cow;
     }
 }
