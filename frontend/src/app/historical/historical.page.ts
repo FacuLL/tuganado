@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CowService } from '../services/cow.service';
 
 @Component({
   selector: 'app-historical',
@@ -7,9 +8,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HistoricalPage implements OnInit {
 
-  constructor() { }
+  selectedCow?: string;
+
+  cows?: any[];
+
+  constructor(private cowService: CowService) { }
 
   ngOnInit() {
+    this.getCows();
   }
+
+  async getCows() {
+    this.cowService.getCows().subscribe({
+      next: (res) => {
+        this.cows = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  downloadData() {}
 
 }
