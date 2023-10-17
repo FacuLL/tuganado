@@ -7,6 +7,7 @@ import { RecordModule } from './entities/record/record.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { ConfigModule } from '@nestjs/config';
+import { ExcelService } from './services/excel/excel.service';
 
 @Module({
   imports: [
