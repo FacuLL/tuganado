@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CowService } from '../services/cow.service';
+import { RecordService } from '../services/record.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-historical',
@@ -12,7 +14,7 @@ export class HistoricalPage implements OnInit {
 
   cows?: any[];
 
-  constructor(private cowService: CowService) { }
+  constructor(private cowService: CowService, private recordService: RecordService) { }
 
   ngOnInit() {
     this.getCows();
@@ -29,6 +31,17 @@ export class HistoricalPage implements OnInit {
     })
   }
 
-  downloadData() {}
+  downloadData() {
+    this.recordService.downloadData().subscribe((res: any) => {
+      let dataType = res.type;
+      let binaryData = [];
+      binaryData.push(res);
+      let downloadLink = document.createElement('a');
+      downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: "application/ms-excel"}));
+      downloadLink.setAttribute('download', 'datos.xlsx');
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+    })
+  }
 
 }

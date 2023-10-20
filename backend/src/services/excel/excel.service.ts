@@ -18,7 +18,7 @@ export class ExcelService {
         })
         let book = new Workbook();
         let sheet = book.addWorksheet("Datos historicos");
-        rows.unshift(Object.keys(data[0]));
+        
         sheet.addRows(rows);
         let File = await new Promise((resolve, reject) => {
             tmp.file({ discardDescriptor: true, prefix: 'excel', postfix: '.xlsx', mode: parseInt('0600', 8) }, async (err, file) => {

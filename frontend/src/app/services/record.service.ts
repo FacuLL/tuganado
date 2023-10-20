@@ -13,4 +13,8 @@ export class RecordService {
   registerRecord(body: any) {
     return this.http.post(this.backendUrl + '/record', body)
   }
+
+  downloadData() {
+    return this.http.get(this.backendUrl + '/record/download',{ responseType: 'blob' as 'json'})
+  }
 }
