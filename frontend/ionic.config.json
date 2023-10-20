@@ -1,5 +1,7 @@
 {
   "name": "tuganado",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

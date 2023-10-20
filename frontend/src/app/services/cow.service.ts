@@ -15,6 +15,10 @@ export class CowService {
     return this.http.get<any[]>(this.backendUrl + '/cow')
   }
 
+  getCow(caravana: string): Observable<any> {
+    return this.http.get<any>(this.backendUrl + '/cow/' + caravana)
+  }
+
   registerCow(body: any) {
     return this.http.post(this.backendUrl + '/cow', body)
   }

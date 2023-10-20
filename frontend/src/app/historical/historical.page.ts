@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CowService } from '../services/cow.service';
 import { RecordService } from '../services/record.service';
-import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-historical',
@@ -11,6 +10,7 @@ import { HttpResponse } from '@angular/common/http';
 export class HistoricalPage implements OnInit {
 
   selectedCow?: string;
+  records?: any[];
 
   cows?: any[];
 
@@ -20,7 +20,22 @@ export class HistoricalPage implements OnInit {
     this.getCows();
   }
 
-  async getCows() {
+  selectChange(event: any) {
+    this.getRecords(event.target.value);
+  }
+
+  getRecords(caravana: string) {
+    this.cowService.getCow(caravana).subscribe({
+      next: (res) => {
+        this.records = res.records;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  getCows() {
     this.cowService.getCows().subscribe({
       next: (res) => {
         this.cows = res;
@@ -42,6 +57,14 @@ export class HistoricalPage implements OnInit {
       document.body.appendChild(downloadLink);
       downloadLink.click();
     })
+  }
+
+  stringifyDate(date: string) {
+    let d = new Date(date);
+    let day = d.getDate()+1;
+    let month = d.getMonth()+1;
+    let year = d.getFullYear();
+    return `${day}/${month}/${year}`
   }
 
 }
