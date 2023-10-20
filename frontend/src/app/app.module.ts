@@ -17,7 +17,7 @@ import { NgChartsModule } from 'ng2-charts';
     FormsModule,
     IonicModule,
     HttpClientModule,
-    NgChartsModule],
+    NgChartsModule.forRoot()],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

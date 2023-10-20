@@ -10,11 +10,15 @@ export class RecordService {
 
   constructor(public http: HttpClient) { }
 
+  getAll() {
+    return this.http.get(this.backendUrl + '/record');
+  }
+
   registerRecord(body: any) {
-    return this.http.post(this.backendUrl + '/record', body)
+    return this.http.post(this.backendUrl + '/record', body);
   }
 
   downloadData() {
-    return this.http.get(this.backendUrl + '/record/download',{ responseType: 'blob' as 'json'})
+    return this.http.get(this.backendUrl + '/record/download',{ responseType: 'blob' as 'json'});
   }
 }
