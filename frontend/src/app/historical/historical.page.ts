@@ -49,11 +49,12 @@ export class HistoricalPage implements OnInit {
   downloadData() {
     this.recordService.downloadData().subscribe((res: any) => {
       let dataType = res.type;
+      let now: Date = new Date();
       let binaryData = [];
       binaryData.push(res);
       let downloadLink = document.createElement('a');
       downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: "application/ms-excel"}));
-      downloadLink.setAttribute('download', 'datos.xlsx');
+      downloadLink.setAttribute('download', `tambo ${this.stringifyDate(now.toString())}.xlsx`);
       document.body.appendChild(downloadLink);
       downloadLink.click();
     })
@@ -61,7 +62,7 @@ export class HistoricalPage implements OnInit {
 
   stringifyDate(date: string) {
     let d = new Date(date);
-    let day = d.getDate()+1;
+    let day = d.getDate();
     let month = d.getMonth()+1;
     let year = d.getFullYear();
     return `${day}/${month}/${year}`
