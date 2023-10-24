@@ -14,8 +14,20 @@
 
 <ion-content [fullscreen]="true">
   <div class="px-3">
-    <ion-select label="Vaca" placeholder="Seleccionar vaca" #selectedCow>
+    <ion-select label="Vaca" placeholder="Seleccionar vaca" (ionChange)="selectChange($event)" #selectedCow>
       <ion-select-option *ngFor="let cow of cows" [value]="cow.caravana">{{ cow.caravana }}</ion-select-option>
     </ion-select>
+    <table class="w-full">
+      <tr>
+        <th class="text-start">Fecha</th>
+        <th class="text-start">Turno</th>
+        <th class="text-start">Litros</th>
+      </tr>
+      <tr *ngFor="let record of records">
+        <td>{{stringifyDate(record.date)}}</td>
+        <td>{{!!record.shift ? 'T' : 'M'}}</td>
+        <td>{{record.amount}}</td>
+      </tr>
+    </table>
   </div>
 </ion-content>

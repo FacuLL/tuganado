@@ -16,7 +16,7 @@ export class CowService {
   }
 
   findAll() {
-    return this.cowRepository.find({relations: {records: true}}) ;
+    return this.cowRepository.find();
   }
 
   async findOne(caravana: string) {
