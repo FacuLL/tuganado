@@ -9,7 +9,7 @@
 
 <ion-content [fullscreen]="true">
   <div class="px-3">
-    <ion-select (ionChange)="changePeriod()" interface="popover" label="Período" placeholder="Seleccionar periodo" value="week" #period>
+    <ion-select (ionChange)="changePeriod($event)" interface="popover" label="Período" placeholder="Seleccionar periodo" value="week">
       <ion-select-option value="week">Semana</ion-select-option>
       <ion-select-option value="month">Mes</ion-select-option>
       <ion-select-option value="year">Año</ion-select-option>

@@ -75,16 +75,17 @@ export class StatsPage implements OnInit {
     this.getData();
   }
 
-  changePeriod() {
-    console.log(this.period);
-    
-    
+  changePeriod(e: any) {
+    this.period = e.target.value;
+    let results = this.periodData(this.period, this.data);
+    this.lineChartData.datasets[0].data = results.data;
+    this.lineChartData.labels = results.labels;
+    this.chart?.update();
   }
 
   getData() {
     this.recordService.getAll().subscribe((res: any) => {
       this.data = res;
-      console.log(this.periodData(this.period, this.data));
       let results = this.periodData(this.period, this.data);
       this.lineChartData.datasets[0].data = results.data;
       this.lineChartData.labels = results.labels;
@@ -94,26 +95,27 @@ export class StatsPage implements OnInit {
   numDaysBetween(d1: Date, d2: Date) {
     d1.setHours(0, 0, 0, 0);
     d2.setHours(0, 0, 0, 0);
-    var diff = Math.abs(d1.getTime() - d2.getTime());
+    var diff = d1.getTime() - d2.getTime();
     return Math.floor(diff / (1000 * 60 * 60 * 24));
   };
 
-  numMonthBetween(d1: Date, d2: Date) {
-    d1.setHours(0, 0, 0, 0);
-    d2.setHours(0, 0, 0, 0);
-    d1.setDate(0);
-    d2.setDate(0);
-    return d2.getMonth() - d1.getMonth() + 
-   (12 * (d2.getFullYear() - d1.getFullYear()))
+  numMonthBetween(d1: Date, d2: Date): number {
+    return d1.getMonth() - d2.getMonth() + (12 * (d1.getFullYear() - d2.getFullYear()))
   };
+
+  stringifyDate(date: string | Date) {
+    let d = new Date(date);
+    let day = d.getDate();
+    let month = d.getMonth()+1;
+    let year = d.getFullYear();
+    return `${day}/${month}/${year}`
+  }
 
   periodData(period: Period, data?: any[]): {data: number[], labels: string[]} {
     if (!data) return {data: [], labels: []};
     data = data.sort(function(a,b){
       return (new Date(a.date).getTime()) - (new Date(b.date).getTime());
     });
-    console.log(data);
-    
     let current: number = 0;
     let last: Date | undefined;
     let output: number[] = [];
@@ -123,37 +125,55 @@ export class StatsPage implements OnInit {
       case 'week':
         data.forEach(record => {
           let d: Date = new Date(record.date);
+          // console.log(`${this.stringifyDate(d)} ${this.stringifyDate(now)} ${this.numDaysBetween(now, d)}`); 
           if (last && this.numDaysBetween(d, last) != 0) {
             output.push(current);
-            labels.push(this.weekLabels[last.getDay()]);
+            labels.push(this.weekLabels[last.getDay()] + " " + last.getDate().toString());
             current = 0;
+            last = undefined;
           }
-          if (this.numDaysBetween(d, now) <= 7){ 
+          if (this.numDaysBetween(now, d) <= 7 && this.numDaysBetween(now, d) >= 0){ 
             current+=record.amount;
             last = d;
           };
         });
         output.push(current);
-        if (last)labels.push(this.weekLabels[last.getDay()]);
+        if (last) labels.push(this.weekLabels[last.getDay()] + " " + last.getDate().toString());
         break;
       case 'month':
-        
+        data.forEach(record => {
+          let d: Date = new Date(record.date);
+          if (last && this.numDaysBetween(d, last) != 0) {
+            output.push(current);
+            labels.push(last.getDate().toString());
+            current = 0;
+            last = undefined;
+          }
+          if (this.numDaysBetween(now, d) <= 31 && this.numDaysBetween(now, d) >= 0){ 
+            current+=record.amount;
+            last = d;
+          };
+        });
+        output.push(current);
+        if (last) labels.push(last.getDate().toString());
         break;
       case 'year':
         data.forEach(record => {
           let d: Date = new Date(record.date);
+          console.log(`${this.stringifyDate(d)} ${this.stringifyDate(now)} ${this.numMonthBetween(now, d)}`); 
           if (last && this.numMonthBetween(d, last) != 0) {
             output.push(current);
-            labels.push(this.yearLabels[last.getDay()]);
+            labels.push(this.yearLabels[last.getMonth()]);
             current = 0;
+            last = undefined;
           }
-          if (this.numMonthBetween(d, now) <= 7){ 
+          if (this.numMonthBetween(now, d) <= 12 && this.numMonthBetween(now, d) >= 0){
             current+=record.amount;
             last = d;
           };
         });
         output.push(current);
-        if (last)labels.push(this.yearLabels[last.getDay()]);
+        if (last)labels.push(this.yearLabels[last.getMonth()]);
         break;
       case 'all':
         break;
