@@ -8,6 +8,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="getData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div class="px-3">
     <ion-select (ionChange)="changePeriod($event)" interface="popover" label="Período" placeholder="Seleccionar periodo" value="week">
       <ion-select-option value="week">Semana</ion-select-option>
