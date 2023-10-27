@@ -18,10 +18,24 @@ export class NewCowPage implements OnInit {
   });
 
   registerCow() {
+    if (this.cowForm.value.caravana.trim() == "") return;
     this.cowService.registerCow(this.cowForm.value).subscribe({next: (res) => {
       this.output = 'Vaca creada correctamante';
       this.success = true;
     }, error: (err) => {
+      console.log(err);
+      this.output = err.error.message;
+      this.success = false;
+    }});
+    this.cowForm.reset();
+  }
+
+  deleteCow() {
+    if (this.cowForm.value.caravana.trim() == "") return;
+    this.cowService.deleteCow(this.cowForm.value.caravana).subscribe({next: (res) => {
+      this.output = 'Vaca borrada correctamente';
+      this.success = true;
+    }, error: (err: any) => {
       console.log(err);
       this.output = err.error.message;
       this.success = false;

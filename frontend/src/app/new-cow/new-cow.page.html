@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="flex">
     <ion-buttons slot="start">
-      <ion-back-button default-href="#" [routerLink]="['/']"></ion-back-button>
+      <ion-back-button default-href="#" color="success" [routerLink]="['/']"></ion-back-button>
     </ion-buttons>
     <ion-title>Tu ganado</ion-title>
   </ion-toolbar>
@@ -17,7 +17,10 @@
       <ion-row class="mt-2">
         <ion-col>
           <div class="flex w-full">
-            <ion-button type="submit" color="primary" fill="outline" class="w-full">Registrar vaca</ion-button>
+            <ion-button type="submit" color="success" fill="outline" class="w-full">Registrar vaca</ion-button>
+          </div>
+          <div class="flex w-full">
+            <ion-button (click)="deleteCow()" color="danger" fill="outline" class="w-full">Eliminar vaca</ion-button>
           </div>
           <p class="{{success ? 'text-green-500' : 'text-red-500'}}">{{output}}</p>
         </ion-col>

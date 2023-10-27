@@ -22,4 +22,8 @@ export class CowService {
   registerCow(body: any) {
     return this.http.post(this.backendUrl + '/cow', body)
   }
+
+  deleteCow(caravana: string) {
+    return this.http.delete(this.backendUrl + '/cow/' + caravana)
+  }
 }

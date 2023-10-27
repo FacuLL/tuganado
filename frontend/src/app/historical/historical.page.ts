@@ -21,18 +21,25 @@ export class HistoricalPage implements OnInit {
   }
 
   selectChange(event: any) {
+    this.selectedCow = event.target.value;
     this.getRecords(event.target.value);
   }
 
   getRecords(caravana: string) {
     this.cowService.getCow(caravana).subscribe({
       next: (res) => {
-        this.records = res.records;
+        this.records = res.records.sort(function(a: any, b: any){
+          return (new Date(b.date).getTime()) - (new Date(a.date).getTime());
+        });
       },
       error: (err) => {
         console.log(err);
       }
     })
+  }
+
+  deleteRecord() {
+
   }
 
   getCows() {
@@ -48,7 +55,6 @@ export class HistoricalPage implements OnInit {
 
   downloadData() {
     this.recordService.downloadData().subscribe((res: any) => {
-      let dataType = res.type;
       let now: Date = new Date();
       let binaryData = [];
       binaryData.push(res);

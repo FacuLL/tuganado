@@ -29,7 +29,8 @@ export class CowService {
     return this.cowRepository.update({caravana: caravana}, updateCowDto);
   }
 
-  remove(caravana: string) {
+  async remove(caravana: string) {
+    if (!await this.cowRepository.findOne({ where: { caravana: caravana } })) throw new NotFoundException("La vaca no existe");
     return this.cowRepository.delete({caravana: caravana});
   }
 }

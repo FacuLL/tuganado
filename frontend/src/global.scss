@@ -15,3 +15,22 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+
+:root {
+    --ion-color-ganado: #69bb7b;
+    --ion-color-ganado-rgb: 105, 187, 123;
+    --ion-color-ganado-contrast: #ffffff;
+    --ion-color-ganado-contrast-rgb: 255, 255, 255;
+    --ion-color-ganado-shade: #5ca56c;
+    --ion-color-ganado-tint: #78c288;
+}
+
+.ion-color-ganado {
+    --ion-color-base: var(--ion-color-ganado);
+    --ion-color-base-rgb: var(--ion-color-ganado-rgb);
+    --ion-color-contrast: var(--ion-color-ganado-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-ganado-contrast-rgb);
+    --ion-color-shade: var(--ion-color-ganado-shade);
+    --ion-color-tint: var(--ion-color-ganado-tint);
+  }
