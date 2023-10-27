@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CowService } from '../services/cow.service';
 import { RecordService } from '../services/record.service';
+import { IonModal } from '@ionic/angular';
 
 @Component({
   selector: 'app-historical',
@@ -13,6 +14,12 @@ export class HistoricalPage implements OnInit {
   records?: any[];
 
   cows?: any[];
+
+  output?: string;
+  success?: boolean;
+
+  @ViewChild(IonModal) modal?: IonModal;
+  recordId?: number;
 
   constructor(private cowService: CowService, private recordService: RecordService) { }
 
@@ -72,6 +79,29 @@ export class HistoricalPage implements OnInit {
     let month = d.getMonth()+1;
     let year = d.getFullYear();
     return `${day}/${month}/${year}`
+  }
+
+  cancel() {
+    this.modal?.dismiss(null, 'cancel');
+  }
+
+  confirm() {
+    this.modal?.dismiss(this.recordId, 'confirm');
+  }
+
+  onWillDismiss(event: Event) {
+    const ev = event as CustomEvent<any>;
+    if (ev.detail.role === 'confirm' && this.recordId) this.recordService.deleteRecord(this.recordId).subscribe(
+      {
+        next: (res) => {
+          if (this.selectedCow) this.getRecords(this.selectedCow);
+        },
+        error: (err) => {
+          this.success = false;
+          this.output = err.message;
+        },
+      }
+    );
   }
 
 }

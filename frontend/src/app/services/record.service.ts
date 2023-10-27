@@ -18,6 +18,10 @@ export class RecordService {
     return this.http.post(this.backendUrl + '/record', body);
   }
 
+  deleteRecord(recordId: number) {
+    return this.http.delete(this.backendUrl + '/record/' + recordId);
+  }
+
   downloadData() {
     return this.http.get(this.backendUrl + '/record/download',{ responseType: 'blob' as 'json'});
   }
