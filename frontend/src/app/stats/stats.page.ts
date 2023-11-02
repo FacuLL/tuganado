@@ -83,12 +83,13 @@ export class StatsPage implements OnInit {
     this.chart?.update();
   }
 
-  getData() {
+  getData(event?: any) {
     this.recordService.getAll().subscribe((res: any) => {
       this.data = res;
       let results = this.periodData(this.period, this.data);
       this.lineChartData.datasets[0].data = results.data;
       this.lineChartData.labels = results.labels;
+      if (event) event.target.complete();
     })
   }
 
