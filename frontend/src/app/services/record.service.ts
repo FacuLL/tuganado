@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class RecordService {
 
-  backendUrl = 'http://localhost:3000';
+  backendUrl = 'https://tuganado-production.up.railway.app';
 
   constructor(public http: HttpClient) { }
 

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class CowService {
 
-  backendUrl = 'http://localhost:3000';
+  backendUrl = 'https://tuganado-production.up.railway.app';
 
   constructor(public http: HttpClient) { }
 
