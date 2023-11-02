@@ -18,7 +18,7 @@ import { ExcelService } from './services/excel/excel.service';
       port: parseInt(process.env.DATABASE_PORT),
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_DATABASE,
+      database: 'railway',
       autoLoadEntities: true,
       synchronize: true,
     }),
