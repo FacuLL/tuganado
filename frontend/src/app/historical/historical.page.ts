@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CowService } from '../services/cow.service';
 import { RecordService } from '../services/record.service';
 import { IonModal } from '@ionic/angular';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-historical',
@@ -32,12 +33,15 @@ export class HistoricalPage implements OnInit {
     this.getRecords(event.target.value);
   }
 
-  getRecords(caravana: string) {
+  getRecords(caravana?: string, event?: any) {
+    if (!caravana && event) return event.target.complete();
+    if (!caravana) return;
     this.cowService.getCow(caravana).subscribe({
       next: (res) => {
         this.records = res.records.sort(function(a: any, b: any){
           return (new Date(b.date).getTime()) - (new Date(a.date).getTime());
         });
+        if (event) event.target.complete();
       },
       error: (err) => {
         console.log(err);
@@ -61,19 +65,20 @@ export class HistoricalPage implements OnInit {
   }
 
   downloadData() {
-    this.recordService.downloadData().subscribe((res: any) => {
+    this.recordService.downloadData().subscribe(async (res: any) => {
       let now: Date = new Date();
-      let binaryData = [];
+      let binaryData: BlobPart[] = [];
       binaryData.push(res);
-      let downloadLink = document.createElement('a');
-      downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: "application/ms-excel"}));
-      downloadLink.setAttribute('download', `tambo ${this.stringifyDate(now.toString())}.xlsx`);
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
+        await Filesystem.writeFile({
+          path: `tambo ${this.stringifyDate(now)}.xlsx`,
+          data: new Blob(binaryData, {type: "application/ms-excel"}),
+          directory: Directory.Documents,
+          encoding: Encoding.UTF8,
+        });
     })
   }
 
-  stringifyDate(date: string) {
+  stringifyDate(date: string | Date) {
     let d = new Date(date);
     let day = d.getDate();
     let month = d.getMonth()+1;

@@ -29,7 +29,6 @@ export class RecordPage implements OnInit {
 
   async ngOnInit() {
     this.getCows();
-    
   }
 
   async getCows() {
@@ -40,15 +39,12 @@ export class RecordPage implements OnInit {
       error: (err) => {
         console.log(err);
       }
-    })
-    console.log(this.cowList);
+    });
   }
 
   selectCow(caravana: string) {
     this.selectedCow = caravana;
     this.recordForm.get('cowCaravana')?.setValue(caravana);
-    console.log(this.recordForm.value);
-    
   }
 
   clearSelectedCow() {
@@ -70,7 +66,7 @@ export class RecordPage implements OnInit {
       this.success = false;
     }});
     this.recordForm.reset();
-    return;
+    this.recordForm.get('cowCaravana')?.setValue(this.selectedCow);
   }
 
 }

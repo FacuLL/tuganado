@@ -54,18 +54,8 @@ export class StatsPage implements OnInit {
       y: {
         position: 'left',
         beginAtZero: true
-      },
-      y1: {
-        position: 'right',
-        grid: {
-          color: 'rgba(255,0,0,0.3)',
-        },
-        ticks: {
-          color: 'red'
-        },
-      },
+      }
     },
-
     plugins: {
       legend: { display: true },
     },
@@ -89,6 +79,7 @@ export class StatsPage implements OnInit {
       let results = this.periodData(this.period, this.data);
       this.lineChartData.datasets[0].data = results.data;
       this.lineChartData.labels = results.labels;
+      this.chart?.update();
       if (event) event.target.complete();
     })
   }
