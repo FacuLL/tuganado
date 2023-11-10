@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/FacuLL/tuganado/assets/69525757/be5b41fa-c470-44f0-8d16-631322147098" width="300px" />
+  <img src="https://github.com/FacuLL/tuganado/assets/69525757/9172891c-8994-4e8d-b962-a35f19580581" width="200px" />
 </p>
 
 # Tu ganado
